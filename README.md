@@ -17,7 +17,7 @@ Apliqué reglas de normalización 3FN.
 * **C# / ASP.NET:** Creación de API con arquitectura en capas (Data, Models, Services & Controllers) conectada a la base de datos creada en el punto anterior.
 El servicio contiene la funcionalidad requerida: - Obtener la fecha con más ventas.
 Además agregué una funcionalidad básica para listar todos los productos.
-* ** Swagger UI:** Visual Studio me facilitó ésta herramienta para poder visualizar la API.
+* **Swagger UI:** Visual Studio me facilitó ésta herramienta para poder visualizar la API.
 
 ### Frontend
 * **HTML5 / CSS3 / JavaScript:** Separación estricta de estructura, estilos y lógica.
@@ -47,6 +47,6 @@ El repositorio está dividido en tres carpetas principales correspondientes a lo
       📁 /js                  # Lógica de gestión en memoria y consumo de API.
       📁 /img                 # Logo.
 
----
+```
 
 **Romina Avalos;
