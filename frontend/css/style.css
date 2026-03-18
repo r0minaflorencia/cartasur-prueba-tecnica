@@ -1,0 +1,19 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.panel-bordeado {
+    border: 3px solid #333; 
+    border-radius: 5px;   
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.05); 
+}
+
+/* Efecto hover suave para la tabla */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+#api-status {
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
