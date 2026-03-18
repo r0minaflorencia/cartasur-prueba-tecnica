@@ -1,0 +1,91 @@
+CREATE DATABASE cartasur;
+USE cartasur;
+
+CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    dni VARCHAR(15) NOT NULL UNIQUE,
+    nombre VARCHAR(100) NOT NULL,
+    direccion_envio VARCHAR(150)
+);
+
+CREATE TABLE sucursales (
+    id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_sucursal VARCHAR(100) NOT NULL,
+    direccion_sucursal VARCHAR(150)
+);
+
+CREATE TABLE empleados (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_empleado VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_producto VARCHAR(100) NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE ventas (
+    id_venta INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_cliente INT,
+    id_sucursal INT,
+    id_empleado INT,
+    importe_total DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
+    FOREIGN KEY (id_sucursal) REFERENCES sucursales(id_sucursal),
+    FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado)
+);
+
+ -- Inserto datos:
+INSERT INTO clientes (dni, nombre, direccion_envio) VALUES ('12345678', 'Natalia Lopez', 'Santa Fe 123'),
+ ('12345677', 'Ulises Gonzalez', 'Corrientes 200');
+INSERT INTO sucursales (nombre_sucursal, direccion_sucursal) VALUES ('Sucursal Centro', 'Av. Central 123'),
+ ('Sucursal Oeste', 'Av. Rivadavia 123');
+INSERT INTO empleados (nombre_empleado) VALUES ('Gabriela Gomez'), ('Fernando Perez');
+INSERT INTO productos (nombre_producto, precio_unitario) VALUES ('Teclado', 17000.00), ('Mouse', 10000.00), ('Monitor', 27000.00);
+
+CREATE TABLE detalle_ventas (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_venta INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL CHECK (cantidad > 0),
+    precio_unitario_en_momento_venta DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES ventas(id_venta),
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
+
+-- Ingreso Ventas:
+INSERT INTO ventas (fecha_venta, id_cliente, id_sucursal, id_empleado, importe_total) 
+VALUES (NOW(), 1, 1, 1, 0);
+INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario_en_momento_venta)
+VALUES (1, 2, 1, 10000.00);
+
+INSERT INTO ventas (fecha_venta, id_cliente, id_sucursal, id_empleado, importe_total) 
+VALUES (NOW(), 2, 2, 2, 0);
+INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario_en_momento_venta)
+VALUES (2, 1, 1, 17000.00);
+
+INSERT INTO ventas (fecha_venta, id_cliente, id_sucursal, id_empleado, importe_total) 
+VALUES ('2026-03-02 09:00:00', 2, 2, 2, 0);
+INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario_en_momento_venta)
+VALUES (3, 3, 1, 27000.00);
+
+-- Desactivo el modo seguro para actualizar el importe total:
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE ventas v
+SET v.importe_total = (
+    SELECT SUM(d.cantidad * d.precio_unitario_en_momento_venta)
+    FROM detalle_ventas d
+    WHERE d.id_venta = v.id_venta
+)
+WHERE v.importe_total = 0;
+
+SET SQL_SAFE_UPDATES = 1; -- Vuelvo al modo seguro.
+
+-- Obtengo la fecha en la que hubo más ventas:
+SELECT DATE(fecha_venta) AS fecha, 
+COUNT(*) AS total_ventas FROM ventas
+GROUP BY fecha
+LIMIT 1;

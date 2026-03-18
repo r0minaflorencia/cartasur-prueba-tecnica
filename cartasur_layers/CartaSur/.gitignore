@@ -1,0 +1,20 @@
+# Carpetas de compilación 
+bin/
+obj/
+
+# Archivos temporales
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Datos sensibles y config local
+secrets.json
+appsettings.Development.json
+*.env
+
+# Archivos del sistema 
+.DS_Store
+Thumbs.db
+[Bb]uild/
