@@ -1,4 +1,4 @@
-# Resolución de Examen Técnico - Analista Desarrolladora Jr
+# Resolución de Examen Técnico - Analista Dev Jr
 
 Este repositorio contiene la resolución del examen técnico, abarcando:
 * Diseño de base de datos con su respectiva normalización y diagrama ER,
@@ -49,4 +49,4 @@ El repositorio está dividido en tres carpetas principales correspondientes a lo
 
 ```
 
-**Romina Avalos;
+**Romina Avalos;**
